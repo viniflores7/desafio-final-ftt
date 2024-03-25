@@ -31,7 +31,7 @@ class ToDo:
             else:
                 self.error()
 
-
+#Funções complementares
     def menu_principal(self, str, t=False): #Se o T for = False, ele não irá demonstrar as opções do menu principal
         self.str = f'{str}'
         l = len(self.str) #Recebendo a quantidade de caracteres do que eu vou escrever
@@ -106,7 +106,7 @@ class ToDo:
         print('\n\033[32m[PROGRAMA ENCERRADO COM SUCESSO]\033[m')
         exit()
 
-
+#Funções principais
     def new_task(self): #Adicionando uma nova tarefa
         while True:
             self.linha(34, 48)
@@ -115,7 +115,7 @@ class ToDo:
             print('[2 - Para Editar]')
             print('[3 - Para Cancelar / Sair]')
             self.linha(34, 48)
-            con = str(input(f'Você confirma sua escolha: ')).strip()[0]
+            con = str(input(f'Você confirma sua escolha: ')).strip()
             if con == '1':
                 status = 'Incompleto'
                 self.db_execute(f'INSERT INTO ToDo VALUES (?,?)',params=[new,status])
@@ -163,13 +163,13 @@ class ToDo:
                 self.back_toMenu()
 
 
-    def manage_task(self):
+    def manage_task(self): #Gerenciar as tarefas
         self.linha(36, 60)
         print(f'\033[1m{"GERENCIE AS SUAS TAREFAS AQUI":^60}\033[m')
         self.linha(36, 60)
         print(self.opcoes_manage_task(True))
         self.linha(36, 60)
-        op = str(input('\033[1mOpção =--> \033[m')).strip()[0]
+        op = str(input('\033[1mOpção =--> \033[m')).strip()
         if op == '1': #Completar tarefas
             self.see_db(False)
             op = str(input('Digite o nome da tarefa da qual você deseja marcar como \033[1mconcluído\033[m: ')).strip().capitalize()
@@ -204,7 +204,7 @@ class ToDo:
 
         elif op == '2': #Excluir tarefas
             self.see_db(False)
-            all = str(input('\033[1;33mVocê deseja excluir todas as suas tarefas? [S/N] \033[m')).upper().strip() [0]#Excluir todas as tarefas
+            all = str(input('\033[1;33mVocê deseja excluir todas as suas tarefas? [S/N] \033[m')).upper().strip() #Excluir todas as tarefas
             if all != 'S': #Se a "all" for diferente de sim, ele vai rodar qual tarefa ele deseja excluir
                 op = str(input('Digite o nome da tarefa da qual você deseja \033[1mexcluir\033[m: ')).strip().capitalize()
                 try:
@@ -229,7 +229,7 @@ class ToDo:
                     print('-Verifique como você digitou, provavelmente você digitou errado a tarefa desejada')
                 self.manage_task()
             else:
-                confirm = str(input('\033[1;31mVocê tem certeza que deseja deletar todas as suas tarefas?\033[m \033[33m[S/N] \033[m')).upper().strip()[0] #Uma outra confirmação se ele realmente quer deletar todas as suas tarefas
+                confirm = str(input('\033[1;31mVocê tem certeza que deseja deletar todas as suas tarefas?\033[m \033[33m[S/N] \033[m')).upper().strip() #Uma outra confirmação se ele realmente quer deletar todas as suas tarefas
                 if confirm != 'S': #Se for diferente de sim
                     print('\033[1mVoltando para o Gerenciador de tarefas\033[m')
                     sleep(0.4)
@@ -252,13 +252,13 @@ class ToDo:
                 cursor.execute("SELECT * FROM ToDo WHERE nome = ?", (op,)) #Verificar se o que você escreveu está no banco de dados
                 resultado = cursor.fetchone()
                 
-                if resultado:
+                if resultado: #Se o resultado for True
                     new = str(input('Digite o nome da nova tarefa / edição da tarefa: ')).strip().capitalize()
                     cursor.execute("UPDATE ToDo SET nome = ? WHERE nome = ?", (new, op,)) #Trocando a tarefa
                     status_atual = resultado[1]  #Recebe o valor da segunda tabela da linha
                     if status_atual == 'Completo': #Se os status for "Completo", dar a opção de mudar para incompleto
                         self.linha(35,57)
-                        opp = str(input('\n\n\033[1mDeseja mudar os status de Completo -> Incompleto? [S/N] \033[m')).strip().upper()[0]
+                        opp = str(input('\n\n\033[1mDeseja mudar os status de Completo -> Incompleto? [S/N] \033[m')).strip().upper()
                         if opp != 'S':
                             print('Os status se manteve \033[1;32mCompleto\033[m')
                         else:
@@ -293,7 +293,7 @@ class ToDo:
         print(f'''\033[1mEste programa é um gerenciador de tarefas onde você pode:
 1 - Criar tarefas;
 2 - Ver todas as tarefas cadastradas até o momento;
-3 - Gerenciar tarefas (Editar e excluir);
+3 - Gerenciar tarefas (Editar, Excluir e Concluir);
 
 OBS: Este projeto é administrado por nomes, você gerencia todas as suas tarefas escrevendo o nome da tarefa
               
